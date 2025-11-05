@@ -12,7 +12,10 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,7 +57,8 @@ fun SpriteButton(
     onClick: () -> Unit,
     enabled: Boolean = true,
     disabledAlpha: Float = 0.5f,
-    size: Dp = 108.dp
+    size: Dp = 108.dp,
+    vibronicType: Int = 0 // 0 = classic, 999 = Roll heavy effect
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -69,11 +73,17 @@ fun SpriteButton(
     // Micro vibrations
     LaunchedEffect(isPressed) {
         if (!enabled) return@LaunchedEffect
-        if (isPressed) {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+
+
+        val feedbackType = if (vibronicType == 999) {
+            HapticFeedbackType.LongPress
         } else {
-            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            HapticFeedbackType.TextHandleMove
         }
+
+        haptic.performHapticFeedback(feedbackType)
+
+
     }
 
     val fontFamily = fontRes?.let { FontFamily(Font(it)) } ?: FontFamily.Default
@@ -128,25 +138,75 @@ fun SpriteButton(
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SpriteButtonPreview(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Black),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically)
-    ) {
-        SpriteButton(
-            resId = R.drawable.cyb_but_dices,
-            text = "3675",
-            textSize = 30.sp,
-            fontRes = R.font.micro_regular,
-            textColor = Color.White,
-            contentDescription = "Enabled",
-            onClick = { Log.d("SpriteButton", "Clicked!") },
-            size = 90.dp,
-            enabled = true,
-            disabledAlpha = 0.4f
-        )
 
+    val sizerButt = 90.dp
+
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+        Row(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 36.dp)
+                .fillMaxWidth()
+                .background(Color.Black),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
+        ) {
+
+            SpriteButton(
+                resId = R.drawable.cyb_but_chest,
+                text = null,
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                textColor = Color.White,
+                contentDescription = "Enabled",
+                onClick = { Log.d("SpriteButton", "Clicked!") },
+                size = sizerButt,
+                enabled = true,
+                disabledAlpha = 0.4f
+            )
+
+            SpriteButton(
+                resId = R.drawable.cyb_but_bankbag,
+                text = "4136",
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                textColor = Color.White,
+                contentDescription = "Enabled",
+                onClick = { Log.d("SpriteButton", "Clicked!") },
+                size = sizerButt,
+                enabled = true,
+                disabledAlpha = 0.4f
+            )
+            SpriteButton(
+                resId = R.drawable.cyb_but_bet,
+                text = null,
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                textColor = Color.White,
+                contentDescription = "Enabled",
+                onClick = { Log.d("SpriteButton", "Clicked!") },
+                size = sizerButt,
+                enabled = true,
+                disabledAlpha = 0.4f
+            )
+            SpriteButton(
+                resId = R.drawable.cyb_but_dices,
+                text = "36",
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                textColor = Color.White,
+                contentDescription = "Enabled",
+                onClick = { Log.d("SpriteButton", "Clicked!") },
+                size = sizerButt,
+                enabled = true,
+                disabledAlpha = 0.4f,
+                vibronicType = 999
+            )
+
+
+        }
     }
+
+
+
 }
