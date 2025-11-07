@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ChainStyle
@@ -25,10 +26,15 @@ import com.lebaillyapp.bettydices.ui.composable.SpriteButton
 
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
-fun SpriteButtonsSection(modifier: Modifier = Modifier) {
-    val sizerButt = 90.dp
-    val upSpacing = 10.dp
-    val interSpacing = 5.dp
+fun SpriteButtonsSection(
+    modifier: Modifier = Modifier,
+    sizerButt: Dp = 90.dp,
+    upSpacing: Dp = 10.dp,
+    interSpacing: Dp = 5.dp,
+    innerVerticalPadding: Dp = 16.dp,
+
+    ) {
+
 
     Box(
         modifier = modifier
@@ -39,7 +45,7 @@ fun SpriteButtonsSection(modifier: Modifier = Modifier) {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 36.dp)
+                .padding(bottom = innerVerticalPadding, top = innerVerticalPadding)
         ) {
             // refs pour les boutons
             val (btn1, btn2, btn3, btn4, btnTop) = createRefs()
@@ -135,6 +141,12 @@ fun SpriteButtonsSectionPreview(modifier: Modifier = Modifier){
             .background(Color.Black),
         contentAlignment = Alignment.BottomCenter
     ){
-        SpriteButtonsSection()
+        SpriteButtonsSection(
+            modifier = Modifier.padding(bottom = 34.dp),
+            sizerButt = 90.dp,
+            upSpacing = 10.dp,
+            interSpacing = 5.dp,
+            innerVerticalPadding = 16.dp
+        )
     }
 }
