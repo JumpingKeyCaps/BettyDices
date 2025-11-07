@@ -22,6 +22,7 @@ import androidx.constraintlayout.compose.ChainStyle
 import com.lebaillyapp.bettydices.R
 
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.lebaillyapp.bettydices.ui.composable.FractalVisualizer
 import com.lebaillyapp.bettydices.ui.composable.SpriteButton
 
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
@@ -135,18 +136,34 @@ fun SpriteButtonsSection(
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SpriteButtonsSectionPreview(modifier: Modifier = Modifier){
+
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black),
-        contentAlignment = Alignment.BottomCenter
+            .background(Color.Black)
     ){
         SpriteButtonsSection(
-            modifier = Modifier.padding(bottom = 34.dp),
+            modifier = Modifier.padding(bottom = 10.dp).align(Alignment.BottomCenter),
             sizerButt = 90.dp,
             upSpacing = 10.dp,
             interSpacing = 5.dp,
             innerVerticalPadding = 16.dp
         )
+
+
+        FractalVisualizer(
+            modifier = Modifier.fillMaxSize().align(Alignment.Center),
+            glowColor = Color(0xFF972298),
+            maxRadius = 500.dp,
+            pointCount = 150,
+            spiralFrequency = 19f,
+            internalOscillationFreq = 1f,
+            rotationSpeed = 1.0f,
+            animationDurationMs = 30000,
+            isAnimating = true
+        )
+
+
+
     }
 }
