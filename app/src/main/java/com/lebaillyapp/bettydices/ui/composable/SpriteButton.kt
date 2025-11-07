@@ -42,7 +42,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ChainStyle
 import com.lebaillyapp.bettydices.R
+
+import androidx.constraintlayout.compose.ConstraintLayout
+
+
+
 
 @Composable
 fun SpriteButton(
@@ -135,7 +141,14 @@ fun SpriteButton(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000)
+
+
+
+
+
+
+
+//@Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SpriteButtonPreview(modifier: Modifier = Modifier) {
 
@@ -153,7 +166,7 @@ fun SpriteButtonPreview(modifier: Modifier = Modifier) {
         ) {
 
             SpriteButton(
-                resId = R.drawable.cyb_but_chest,
+                resId = R.drawable.cyb_but_scoreur,
                 text = null,
                 textSize = 30.sp,
                 fontRes = R.font.micro_regular,
@@ -209,4 +222,101 @@ fun SpriteButtonPreview(modifier: Modifier = Modifier) {
 
 
 
+}
+
+
+@Preview(showBackground = true, backgroundColor = 0xFF000000)
+@Composable
+fun SpriteButtonConstraintPreview(modifier: Modifier = Modifier) {
+    val sizerButt = 90.dp
+    val spacing = 10.dp
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 36.dp)
+        ) {
+            val (btn1, btn2, btn3, btn4, btnTop) = createRefs()
+
+            // 1 - Bank
+            SpriteButton(
+                modifier = Modifier.constrainAs(btn1) {
+                    bottom.linkTo(parent.bottom)
+                },
+                resId = R.drawable.cyb_but_scoreur,
+                text = null,
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                onClick = { Log.d("SpriteButton", "Clicked 1!") },
+                size = sizerButt
+            )
+
+            // 2 - Stack
+            SpriteButton(
+                modifier = Modifier.constrainAs(btn2) {
+                    bottom.linkTo(btn1.bottom)
+                },
+                resId = R.drawable.cyb_but_bankbag,
+                text = "4136",
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                onClick = { Log.d("SpriteButton", "Clicked 2!") },
+                size = sizerButt
+            )
+
+            // 3 - Bet
+            SpriteButton(
+                modifier = Modifier.constrainAs(btn3) {
+                    bottom.linkTo(btn1.bottom)
+                },
+                resId = R.drawable.cyb_but_bet,
+                text = null,
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                onClick = { Log.d("SpriteButton", "Clicked 3!") },
+                size = sizerButt
+            )
+
+            // 4 - Roll
+            SpriteButton(
+                modifier = Modifier.constrainAs(btn4) {
+                    bottom.linkTo(btn1.bottom)
+                },
+                resId = R.drawable.cyb_but_dices,
+                text = "36",
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                vibronicType = 999,
+                onClick = { Log.d("SpriteButton", "Clicked 4!") },
+                size = sizerButt
+            )
+
+            // 5- Up Roll!
+            SpriteButton(
+                modifier = Modifier.constrainAs(btnTop) {
+                    bottom.linkTo(btn4.top, margin = spacing)
+                    start.linkTo(btn4.start)
+                    end.linkTo(btn4.end)
+                },
+                resId = R.drawable.cyb_but_uproll,
+                text = null,
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular,
+                onClick = { Log.d("SpriteButton", "Clicked TOP!") },
+                size = sizerButt
+            )
+
+            // >>> Chaîne horizontale centrée <<<
+            createHorizontalChain(
+                btn1, btn2, btn3, btn4,
+                chainStyle = ChainStyle.Packed
+            )
+        }
+    }
 }
