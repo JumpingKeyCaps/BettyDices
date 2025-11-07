@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -229,7 +231,8 @@ fun SpriteButtonPreview(modifier: Modifier = Modifier) {
 @Composable
 fun SpriteButtonConstraintPreview(modifier: Modifier = Modifier) {
     val sizerButt = 90.dp
-    val spacing = 10.dp
+    val upSpacing = 10.dp
+    val interSpacing = 5.dp
 
     Box(
         modifier = modifier
@@ -242,79 +245,83 @@ fun SpriteButtonConstraintPreview(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(bottom = 36.dp)
         ) {
+            // refs pour les boutons
             val (btn1, btn2, btn3, btn4, btnTop) = createRefs()
+            // refs pour les spacers
+            val (spacer1, spacer2, spacer3) = createRefs()
 
             // 1 - Bank
             SpriteButton(
-                modifier = Modifier.constrainAs(btn1) {
-                    bottom.linkTo(parent.bottom)
-                },
+                modifier = Modifier.constrainAs(btn1) { bottom.linkTo(parent.bottom) },
                 resId = R.drawable.cyb_but_scoreur,
                 text = null,
-                textSize = 30.sp,
-                fontRes = R.font.micro_regular,
                 onClick = { Log.d("SpriteButton", "Clicked 1!") },
-                size = sizerButt
+                size = sizerButt,
+                fontRes = R.font.micro_regular
             )
+            // Spacer 1
+            Spacer(modifier = Modifier
+                .width(interSpacing)
+                .constrainAs(spacer1) { bottom.linkTo(btn1.bottom) })
 
             // 2 - Stack
             SpriteButton(
-                modifier = Modifier.constrainAs(btn2) {
-                    bottom.linkTo(btn1.bottom)
-                },
+                modifier = Modifier.constrainAs(btn2) { bottom.linkTo(btn1.bottom) },
                 resId = R.drawable.cyb_but_bankbag,
                 text = "4136",
                 textSize = 30.sp,
-                fontRes = R.font.micro_regular,
                 onClick = { Log.d("SpriteButton", "Clicked 2!") },
-                size = sizerButt
+                size = sizerButt,
+                fontRes = R.font.micro_regular
             )
+            // Spacer 2
+            Spacer(modifier = Modifier
+                .width(interSpacing)
+                .constrainAs(spacer2) { bottom.linkTo(btn2.bottom) })
 
             // 3 - Bet
             SpriteButton(
-                modifier = Modifier.constrainAs(btn3) {
-                    bottom.linkTo(btn1.bottom)
-                },
+                modifier = Modifier.constrainAs(btn3) { bottom.linkTo(btn1.bottom) },
                 resId = R.drawable.cyb_but_bet,
-                text = null,
-                textSize = 30.sp,
-                fontRes = R.font.micro_regular,
                 onClick = { Log.d("SpriteButton", "Clicked 3!") },
-                size = sizerButt
+                size = sizerButt,
+                textSize = 30.sp,
+                fontRes = R.font.micro_regular
             )
+            // Spacer 3
+            Spacer(modifier = Modifier
+                .width(interSpacing)
+                .constrainAs(spacer3) { bottom.linkTo(btn3.bottom) })
 
             // 4 - Roll
             SpriteButton(
-                modifier = Modifier.constrainAs(btn4) {
-                    bottom.linkTo(btn1.bottom)
-                },
+                modifier = Modifier.constrainAs(btn4) { bottom.linkTo(btn1.bottom) },
                 resId = R.drawable.cyb_but_dices,
                 text = "36",
                 textSize = 30.sp,
-                fontRes = R.font.micro_regular,
                 vibronicType = 999,
                 onClick = { Log.d("SpriteButton", "Clicked 4!") },
-                size = sizerButt
+                size = sizerButt,
+                fontRes = R.font.micro_regular
             )
 
             // 5- Up Roll!
             SpriteButton(
                 modifier = Modifier.constrainAs(btnTop) {
-                    bottom.linkTo(btn4.top, margin = spacing)
+                    bottom.linkTo(btn4.top, margin = upSpacing)
                     start.linkTo(btn4.start)
                     end.linkTo(btn4.end)
                 },
                 resId = R.drawable.cyb_but_uproll,
-                text = null,
-                textSize = 30.sp,
-                fontRes = R.font.micro_regular,
+                vibronicType = 999,
                 onClick = { Log.d("SpriteButton", "Clicked TOP!") },
-                size = sizerButt
+                size = sizerButt,
+                fontRes = R.font.micro_regular
             )
 
-            // >>> Chaîne horizontale centrée <<<
+            // Chaîne horizontale centrée avec spacers
             createHorizontalChain(
-                btn1, btn2, btn3, btn4,
+                btn1, spacer1, btn2, spacer2, btn3, spacer3, btn4,
                 chainStyle = ChainStyle.Packed
             )
         }
