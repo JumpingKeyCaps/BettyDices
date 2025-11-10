@@ -1,7 +1,6 @@
 package com.lebaillyapp.bettydices.ui.composition
 
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -22,10 +21,8 @@ import androidx.constraintlayout.compose.ChainStyle
 import com.lebaillyapp.bettydices.R
 
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.lebaillyapp.bettydices.ui.composable.FractalVisualizer
 import com.lebaillyapp.bettydices.ui.composable.SpriteButton
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SpriteButtonsSection(
     modifier: Modifier = Modifier,
@@ -33,7 +30,17 @@ fun SpriteButtonsSection(
     upSpacing: Dp = 10.dp,
     interSpacing: Dp = 5.dp,
     innerVerticalPadding: Dp = 16.dp,
-
+    onRollClick: () -> Unit,
+    onUpRollClick: () -> Unit,
+    onBankClick: () -> Unit,
+    onStackClick: () -> Unit,
+    onBetClick: () -> Unit,
+    gameTurn: Int = 50,
+    buttonBankIsEnabled: Boolean = true,
+    buttonStackIsEnabled: Boolean = true,
+    buttonBetIsEnabled: Boolean = true,
+    buttonRollIsEnabled: Boolean = true,
+    buttonUpRollIsEnabled: Boolean = false
     ) {
 
 
@@ -58,9 +65,10 @@ fun SpriteButtonsSection(
                 modifier = Modifier.constrainAs(btn1) { bottom.linkTo(parent.bottom) },
                 resId = R.drawable.cyb_but_scoreur,
                 text = null,
-                onClick = { Log.d("SpriteButton", "Clicked 1!") },
+                onClick = onBankClick,
                 size = sizerButt,
-                fontRes = R.font.micro_regular
+                fontRes = R.font.micro_regular,
+                enabled = buttonBankIsEnabled
             )
             // Spacer 1
             Spacer(modifier = Modifier
@@ -73,9 +81,10 @@ fun SpriteButtonsSection(
                 resId = R.drawable.cyb_but_bankbag,
                 text = "4136",
                 textSize = 30.sp,
-                onClick = { Log.d("SpriteButton", "Clicked 2!") },
+                onClick = onStackClick,
                 size = sizerButt,
-                fontRes = R.font.micro_regular
+                fontRes = R.font.micro_regular,
+                enabled = buttonStackIsEnabled
             )
             // Spacer 2
             Spacer(modifier = Modifier
@@ -86,10 +95,11 @@ fun SpriteButtonsSection(
             SpriteButton(
                 modifier = Modifier.constrainAs(btn3) { bottom.linkTo(btn1.bottom) },
                 resId = R.drawable.cyb_but_bet,
-                onClick = { Log.d("SpriteButton", "Clicked 3!") },
+                onClick = onBetClick,
                 size = sizerButt,
                 textSize = 30.sp,
-                fontRes = R.font.micro_regular
+                fontRes = R.font.micro_regular,
+                enabled = buttonBetIsEnabled
             )
             // Spacer 3
             Spacer(modifier = Modifier
@@ -100,12 +110,13 @@ fun SpriteButtonsSection(
             SpriteButton(
                 modifier = Modifier.constrainAs(btn4) { bottom.linkTo(btn1.bottom) },
                 resId = R.drawable.cyb_but_dices,
-                text = "36",
+                text = gameTurn.toString(),
                 textSize = 30.sp,
                 vibronicType = 999,
-                onClick = { Log.d("SpriteButton", "Clicked 4!") },
+                onClick = onRollClick,
                 size = sizerButt,
-                fontRes = R.font.micro_regular
+                fontRes = R.font.micro_regular,
+                enabled = buttonRollIsEnabled
             )
 
             // 5- Up Roll!
@@ -117,9 +128,10 @@ fun SpriteButtonsSection(
                 },
                 resId = R.drawable.cyb_but_uproll,
                 vibronicType = 999,
-                onClick = { Log.d("SpriteButton", "Clicked TOP!") },
+                onClick = onUpRollClick,
                 size = sizerButt,
-                fontRes = R.font.micro_regular
+                fontRes = R.font.micro_regular,
+                enabled = buttonUpRollIsEnabled
             )
 
             // Chaîne horizontale centrée avec spacers
@@ -147,23 +159,13 @@ fun SpriteButtonsSectionPreview(modifier: Modifier = Modifier){
             sizerButt = 90.dp,
             upSpacing = 10.dp,
             interSpacing = 5.dp,
-            innerVerticalPadding = 16.dp
+            innerVerticalPadding = 16.dp,
+            onRollClick = {},
+            onUpRollClick = {},
+            onBankClick = {},
+            onStackClick = {},
+            onBetClick = {}
         )
-
-
-        FractalVisualizer(
-            modifier = Modifier.fillMaxSize().align(Alignment.Center),
-            glowColor = Color(0xFF972298),
-            maxRadius = 500.dp,
-            pointCount = 150,
-            spiralFrequency = 19f,
-            internalOscillationFreq = 1f,
-            rotationSpeed = 1.0f,
-            animationDurationMs = 30000,
-            isAnimating = true
-        )
-
-
 
     }
 }
